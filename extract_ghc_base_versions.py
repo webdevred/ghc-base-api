@@ -26,7 +26,7 @@ def main():
     parser.add_argument("--url", default=URL)
     args = parser.parse_args()
 
-    print(f"Hämtar YAML från: {args.url}")
+    print(f"Fetching YAML from: {args.url}")
     resp = requests.get(args.url)
     resp.raise_for_status()
 
@@ -36,7 +36,7 @@ def main():
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(extracted, f, ensure_ascii=False, indent=2)
 
-    print(f"Sparat till: {args.out}")
+    print(f"Saved JSON to: {args.out}")
 
 if __name__ == "__main__":
     main()
