@@ -1,0 +1,35 @@
+name: Generate JSON dump
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "extract_ghc_base_versions.py"
+  schedule:
+    - cron: '0 0 * * 0' # varje söndag
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy-json:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: pip install pyyaml requests
+      - run: mkdir api
+      - name: Generate JSON
+        run: python extract_ghc_base_versions.py --out api/ghc_base_versions.json
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: api
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
