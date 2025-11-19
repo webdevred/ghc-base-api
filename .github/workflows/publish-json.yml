@@ -30,7 +30,7 @@ jobs:
       - name: Generate JSON
         run: python extract_ghc_base_versions.py --out website/ghc_base_versions.json
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: website
       - name: Deploy to GitHub Pages
