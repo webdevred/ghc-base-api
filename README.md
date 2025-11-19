@@ -86,4 +86,8 @@ fi
       - name: Set up GHC latest and Cabal
         id: setup-ghc
         uses: haskell-actions/setup@v2.8.2
+        with:
+          ghc-version: ${{ steps.get-ghc.outputs.ghc-version }}
+          cabal-version: latest
+          cabal-update: true
 ```
