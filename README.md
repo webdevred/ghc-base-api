@@ -3,6 +3,11 @@
 ## Description
 The GHC Base API provides an overview of compatibility between Haskell GHC versions and base library versions. Its goal is to make it easy for developers to automatically select the correct GHC version for a project based on its cabal file.
 
+### Links
+
+- API: https://webdevred.github.io/ghc-base-api/ghc_base_versions.json
+- Website: https://webdevred.github.io/ghc-base-api
+
 ### Example
 
 Suggested directory layout in your project:
