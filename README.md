@@ -5,6 +5,15 @@ The GHC Base API provides an overview of compatibility between Haskell GHC versi
 
 ### Example
 
+Suggested directory layout in your project:
+```
+.github/script_helpers/select_ghc_by_base.jq
+.github/script_helpers/extact_upper_base_bound.awk
+.github/scripts/get-newest-ghc-version.sh
+.github/workflows/future-proofing.yaml
+```
+
+**.github/script_helpers/extact_upper_base_bound.awk:**
 ```awk
 /base[[:space:]]*>=/ {
     match($0, /<([0-9.]+)/, m)
@@ -12,6 +21,7 @@ The GHC Base API provides an overview of compatibility between Haskell GHC versi
 }
 ```
 
+**.github/script_helpers/select_ghc_by_base.jq:**
 ```jq
 def pad3:
   if length == 1 then "00" + .
@@ -28,6 +38,7 @@ map(. + {
   | .ghc
 ```
 
+**.github/scripts/get-newest-ghc-version.sh:**
 ```bash
 #!/usr/bin/env bash
 
@@ -57,6 +68,7 @@ if [[ "$GITHUB" != "" ]]; then
 fi
 ```
 
+**.github/workflows/future-proofing.yaml:**
 ```yaml
       - name: Checkout code
         uses: actions/checkout@v5
