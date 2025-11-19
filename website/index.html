@@ -3,20 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>GHC Base Versions</title>
-<style>
-  body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: auto; }
-  h1 { text-align: center; }
-  table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-  th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
-  th { background-color: #f0f0f0; }
-  tbody tr:nth-child(even) { background-color: #fafafa; }
-  #filter-box {
-    margin-top: 20px;
-    width: 100%;
-    padding: 8px;
-    font-size: 1rem;
-  }
-</style>
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
 <h1>GHC → Base Versions</h1>
@@ -33,50 +20,6 @@
   </thead>
   <tbody></tbody>
 </table>
-
-<script>
-  let fullData = [];
-
-  fetch('ghc_base_versions.json')
-    .then(response => {
-      if (!response.ok) throw new Error("Failed to load JSON");
-      return response.json();
-    })
-    .then(data => {
-      fullData = data;
-      renderTable(data);
-    })
-    .catch(error => {
-      console.error("Error loading JSON:", error);
-      const tbody = document.querySelector('#ghc-table tbody');
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td colspan="2">Failed to load data</td>`;
-      tbody.appendChild(tr);
-    });
-
-  function renderTable(data) {
-    const tbody = document.querySelector('#ghc-table tbody');
-    tbody.innerHTML = '';
-    data.forEach(entry => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${entry.ghc}</td><td>${entry.base || ''}</td>`;
-      tbody.appendChild(tr);
-    });
-  }
-
-  document.getElementById('filter-box').addEventListener('input', (e) => {
-    const text = e.target.value.trim();
-    if (text === '') {
-      renderTable(fullData);
-      return;
-    }
-
-    const filtered = fullData.filter(entry =>
-      entry.ghc.startsWith(text) || (entry.base && entry.base.startsWith(text))
-    );
-
-    renderTable(filtered);
-  });
-</script>
+<script src="script.js"></script>
 </body>
 </html>
