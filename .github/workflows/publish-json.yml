@@ -2,11 +2,12 @@ name: Generate JSON dump
 
 on:
   push:
-    branches: ["main"]
+    branches: [main]
     paths:
       - "extract_ghc_base_versions.py"
+      - ".github/workflows/publish-json.yml"
   schedule:
-    - cron: '0 0 * * 0' # varje söndag
+    - cron: 0 0 * * 0
 
 permissions:
   contents: read
@@ -21,15 +22,14 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: 3.x
       - name: Install dependencies
         run: pip install pyyaml requests
-      - run: mkdir api
       - name: Generate JSON
-        run: python extract_ghc_base_versions.py --out api/ghc_base_versions.json
+        run: python extract_ghc_base_versions.py --out website/ghc_base_versions.json
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: api
+          path: website
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
