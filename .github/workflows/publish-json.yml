@@ -4,8 +4,10 @@ on:
   push:
     branches: [main]
     paths:
-      - "extract_ghc_base_versions.py"
-      - ".github/workflows/publish-json.yml"
+      - extract_ghc_base_versions.py
+      - .github/workflows/publish-json.yml
+      - website/*
+  workflow_dispatch:
   schedule:
     - cron: 0 0 * * 0
 
