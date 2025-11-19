@@ -85,5 +85,5 @@ fi
           CABAL_FILE: jbeam-edit.cabal
       - name: Set up GHC latest and Cabal
         id: setup-ghc
-        uses: haskell-actions/setup@v2.8.2<
+        uses: haskell-actions/setup@v2.8.2
 ```
