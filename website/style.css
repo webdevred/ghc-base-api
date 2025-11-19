@@ -15,7 +15,8 @@ table {
     margin-top: 20px;
 }
 
-th, td {
+th,
+td {
     border: 1 px solid #ccc;
     padding: 8px 12px;
     text-align: left;
