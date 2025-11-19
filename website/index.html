@@ -10,11 +10,19 @@
   th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
   th { background-color: #f0f0f0; }
   tbody tr:nth-child(even) { background-color: #fafafa; }
+  #filter-box {
+    margin-top: 20px;
+    width: 100%;
+    padding: 8px;
+    font-size: 1rem;
+  }
 </style>
 </head>
 <body>
 <h1>GHC → Base Versions</h1>
-<p>This is a list of GHC versions and their corresponding base versions. Data is loaded from a JSON API.</p>
+<p>Write something like <strong>7.10</strong> eller <strong>4.9</strong> för att filtrera GHC och Base-versioner.</p>
+
+<input id="filter-box" type="text" placeholder="Filtrera GHC/Base-versioner …">
 
 <table id="ghc-table">
   <thead>
@@ -27,19 +35,16 @@
 </table>
 
 <script>
-  // Load JSON from the same repo
+  let fullData = [];
+
   fetch('ghc_base_versions.json')
     .then(response => {
       if (!response.ok) throw new Error("Failed to load JSON");
       return response.json();
     })
     .then(data => {
-      const tbody = document.querySelector('#ghc-table tbody');
-      data.forEach(entry => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${entry.ghc}</td><td>${entry.base || ''}</td>`;
-        tbody.appendChild(tr);
-      });
+      fullData = data;
+      renderTable(data);
     })
     .catch(error => {
       console.error("Error loading JSON:", error);
@@ -48,6 +53,30 @@
       tr.innerHTML = `<td colspan="2">Failed to load data</td>`;
       tbody.appendChild(tr);
     });
+
+  function renderTable(data) {
+    const tbody = document.querySelector('#ghc-table tbody');
+    tbody.innerHTML = '';
+    data.forEach(entry => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${entry.ghc}</td><td>${entry.base || ''}</td>`;
+      tbody.appendChild(tr);
+    });
+  }
+
+  document.getElementById('filter-box').addEventListener('input', (e) => {
+    const text = e.target.value.trim();
+    if (text === '') {
+      renderTable(fullData);
+      return;
+    }
+
+    const filtered = fullData.filter(entry =>
+      entry.ghc.startsWith(text) || (entry.base && entry.base.startsWith(text))
+    );
+
+    renderTable(filtered);
+  });
 </script>
 </body>
 </html>
